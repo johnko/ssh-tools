@@ -34,7 +34,7 @@ SCRIPTVERSION=141214-063148
 PUBKEY=id_ecdsa.pub
 
 if [ -n "$*" ]; then
-	cat $HOME/.ssh/${PUBKEY} | ssh $* "umask 077; test -d ~/.ssh || install -d -m 700 ~/.ssh ; cat >> ~/.ssh/authorized_keys2"
+	cat $HOME/.ssh/${PUBKEY} | ssh $* "umask 077; test -d ~/.ssh || install -d -m 700 ~/.ssh ; cat >>~/.ssh/authorized_keys2"
 else
 	echo "Appends $HOME/.ssh/${PUBKEY} to remotehost's ~/.ssh/authorized_keys2"
 	echo "Usage:  $0 -p 22 user@remotehost"
