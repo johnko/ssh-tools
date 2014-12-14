@@ -33,7 +33,7 @@ SCRIPTVERSION=141214-063148
 
 case `uname -s` in
 	FreeBSD)
-		FILE=/etc/ssh/ssh_host_ecdsa_key.pub
+		FILE=/etc/ssh/ssh_host_ed25519_key.pub
 	;;
 esac
 

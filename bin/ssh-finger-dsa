@@ -32,8 +32,11 @@
 SCRIPTVERSION=141214-063148
 
 case `uname -s` in
+	Darwin)
+		FILE=/etc/ssh_host_dsa_key.pub
+	;;
 	FreeBSD)
-		FILE=/etc/ssh/ssh_host_ecdsa_key.pub
+		FILE=/etc/ssh/ssh_host_dsa_key.pub
 	;;
 esac
 
