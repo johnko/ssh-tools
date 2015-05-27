@@ -27,11 +27,9 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 ######################################################################
-# Script version is yymmdd-HHMMSS in UTC, date +%y%m%d-%H%M%S
+# Script version is yymmdd-HHMMSS in UTC, date -u +%y%m%d-%H%M%S
 ######################################################################
-SCRIPTVERSION=141214-063148
+SCRIPTVERSION=150527-030407
 
-if [ ! -e /etc/ssh/moduli ]; then
-	ssh-keygen -G /etc/ssh/moduli.tmp -b 4096
-	ssh-keygen -T /etc/ssh/moduli -f /etc/ssh/moduli.tmp
-fi
+ssh-keygen -G /etc/ssh/moduli.tmp -b 4096
+ssh-keygen -T /etc/ssh/moduli -f /etc/ssh/moduli.tmp
