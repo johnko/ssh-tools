@@ -2,7 +2,7 @@
 ######################################################################
 # LICENSE pulled in with, cat LICENSE | awk '{print "# "$0}'
 ######################################################################
-# Copyright (c) 2014, John Ko
+# Copyright (c) 2014-2015, John Ko
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
