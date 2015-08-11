@@ -18,7 +18,7 @@ if ! id _sshtunl ; then
 fi
 
 # if sshtunl user
-if [ "1022" != "${MYUID}" ]; then
+if [ "1022" == "${MYUID}" ]; then
     # and key not exist
     if [ ! -e /usr/home/_sshtunl/.ssh/id_ed25519 ]; then
         # create key
