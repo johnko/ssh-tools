@@ -2,13 +2,13 @@
 
 # exit if running already
 THISSCRIPT=${0##*/}
-if pgrep -lf ${THISSCRIPT} ; then
+if pgrep -lf ${THISSCRIPT} > /dev/null 2> /dev/null ; then
     exit 1
 fi
 
 # on phone_home_server
 MYUID=`id -u`
-if ! id _sshtunl ; then
+if ! id _sshtunl > /dev/null 2> /dev/null ; then
     if [ "0" == "${MYUID}" ]; then
         # if root, create user
         echo "_sshtunl:1022::::::/usr/home/_sshtunl:/usr/sbin/nologin:" | adduser -w no -f -
@@ -31,7 +31,7 @@ if [ "1022" == "${MYUID}" ]; then
     # on system with no static public ip
     ssh \
         -i /usr/home/_sshtunl/.ssh/id_ed25519 \
-        -f \
+        -q \
         -N \
         -l_sshtunl \
         -R 22222:localhost:22 \
