@@ -1,43 +1,16 @@
 #!/bin/sh
 
+export CALLBACKPORT=22222
+export REMOTEHOST=ip_or_hostname
+export REMOTEPORT=22
+
 # exit if running already
 THISSCRIPT=${0##*/}
 if pgrep -lf ${THISSCRIPT} > /dev/null 2> /dev/null ; then
     exit 1
 fi
 
-# on phone_home_server
-MYUID=`id -u`
-if ! id _sshtunl > /dev/null 2> /dev/null ; then
-    if [ "0" == "${MYUID}" ]; then
-        # if root, create user
-        echo "_sshtunl:1022::::::/usr/home/_sshtunl:/usr/sbin/nologin:" | adduser -w no -f -
-    else
-        echo "You probably want to create a user named _sshtunl."
-    fi
-fi
-
-# if sshtunl user
-if [ "1022" == "${MYUID}" ]; then
-    # and key not exist
-    if [ ! -e /usr/home/_sshtunl/.ssh/id_ed25519 ]; then
-        # create key
-        ssh-keygen -N '' -t ed25519 -f /usr/home/_sshtunl/.ssh/id_ed25519
-    fi
-    # call from unprivileged user's crontab
-    # -f background
-    # -N no command
-    # -R new_listen_port/new_listen_host/fwd_to_my_22
-    # on system with no static public ip
-    ssh \
-        -i /usr/home/_sshtunl/.ssh/id_ed25519 \
-        -q \
-        -N \
-        -l_sshtunl \
-        -R 22222:localhost:22 \
-        -p22 \
-        phone_home_to_this_server
-fi
+sh ${HOME}/bin/ssh-tunnel-include
 
 # to connect back
 # ssh -luser -p 22222 localhost

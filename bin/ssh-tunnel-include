@@ -1,0 +1,48 @@
+#!/bin/sh
+
+if [ "x" = "x${CALLBACKPORT}" ]; then
+    CALLBACKPORT=22222
+fi
+if [ "x" = "x${REMOTEPORT}" ]; then
+    REMOTEPORT=22
+fi
+if [ "x" = "x${REMOTEHOST}" ]; then
+    echo "ERROR: set env var REMOTEHOST."
+    exit 1
+fi
+
+# on phone_home_server
+MYUID=`id -u`
+if ! id _sshtunl > /dev/null 2> /dev/null ; then
+    if [ "0" == "${MYUID}" ]; then
+        # if root, create user
+        echo "_sshtunl:1022::::::/usr/home/_sshtunl:/usr/sbin/nologin:" | adduser -w no -f -
+    else
+        echo "You probably want to create a user named _sshtunl."
+    fi
+fi
+
+# if sshtunl user
+if [ "1022" == "${MYUID}" ]; then
+    # and key not exist
+    if [ ! -e /usr/home/_sshtunl/.ssh/id_ed25519 ]; then
+        # create key
+        ssh-keygen -N '' -t ed25519 -f /usr/home/_sshtunl/.ssh/id_ed25519
+    fi
+    # call from unprivileged user's crontab
+    # -f background
+    # -N no command
+    # -R new_listen_port/new_listen_host/fwd_to_my_22
+    # on system with no static public ip
+    ssh \
+        -i /usr/home/_sshtunl/.ssh/id_ed25519 \
+        -q \
+        -N \
+        -l_sshtunl \
+        -R ${CALLBACKPORT}:localhost:22 \
+        -p${REMOTEPORT} \
+        ${REMOTEHOST}
+fi
+
+# to connect back
+# ssh -luser -p 22222 localhost
