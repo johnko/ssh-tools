@@ -10,7 +10,7 @@ if pgrep -lf ${THISSCRIPT} > /dev/null 2> /dev/null ; then
     exit 1
 fi
 
-sh ${HOME}/bin/ssh-tunnel-include
+ssh-tunnel-include
 
 # to connect back
 # ssh -luser -p 22222 localhost
